@@ -22,6 +22,10 @@ my $app1, $app2;
 
 builder {
   enable 'Debug';
+  enable "Auth::Basic", authenticator => sub {
+    my($username, $password) = @_;
+    return $username eq 'admin' && $password eq 'foobar';
+  };
   mount "/test1" => builder { $app1 };
   mount "/test2" => builder { $app2 };
 };
