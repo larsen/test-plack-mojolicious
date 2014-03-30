@@ -1,13 +1,20 @@
 package AppTest1::Example;
 use Mojo::Base 'Mojolicious::Controller';
 
-# This action will render a template
+use Mojolicious::Sessions::Storable;
+use Plack::Session;
+use Plack::Session::Store::File;
+
 sub welcome {
   my $self = shift;
 
-  # Render template "example/welcome.html.ep" with message
+  my $session = Plack::Session->new( $self->req->env );
+
   $self->render(
-    message => 'Hi, I am AppTest1');
+    message  => 'Hi, I am AppTest1',
+    username => $session->get('username'),
+    session  => $session
+  );
 }
 
 1;
